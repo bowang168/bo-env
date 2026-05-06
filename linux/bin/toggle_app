@@ -16,9 +16,11 @@
 set -euo pipefail
 
 my_term=${1:-gnome-terminal}
+shift || true
+my_args=("$@")
 
 launch_app() {
-    nohup "$my_term" >/dev/null 2>&1 &
+    nohup "$my_term" "${my_args[@]}" >/dev/null 2>&1 &
 }
 
 ###############################################################################

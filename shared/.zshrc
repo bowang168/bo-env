@@ -53,3 +53,14 @@ alias l='\ls'
 
 # --- Starship prompt (must be at end) ---
 #eval "$(starship init zsh)"
+
+eval "$(/home/linuxbrew/.linuxbrew/bin/brew shellenv zsh)"
+# Keep local policy wrappers ahead of npm-installed command shims.
+path=("$HOME/.local/bin" "$HOME/.npm-global/bin" ${path:#$HOME/.local/bin} ${path:#$HOME/.npm-global/bin})
+export PATH
+
+# --- Codex ---
+# `codex` resolves via PATH to ~/.npm-global/bin/codex (the real npm binary).
+# For policy-compliant max access + VPN/proxy auto-detection, run `codex-fast`
+# explicitly. `codex-subagent` for non-interactive workers, `codex-debug` for
+# diagnosis.

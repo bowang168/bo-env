@@ -10,6 +10,8 @@ theme = Catppuccin Mocha
 #theme = Breadog
 #theme = Modus Operandi
 #theme = Modus Vivendi
+
+#theme = Gruvbox Dark Hard
 #background = 171421
 
 # === 窗口 ===
@@ -32,7 +34,7 @@ shell-integration-features = no-cursor
 window-vsync = true
 
 # === 透明度 / 模糊 ===
-background-opacity = 0.9
+background-opacity = 1
 background-blur = 20
 
 # === 行为 ===

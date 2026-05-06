@@ -74,8 +74,7 @@ vim.opt.rtp:prepend(lazypath)
 require("lazy").setup({
   -- Colorscheme
   {
-    "catppuccin/nvim",
-    name = "catppuccin",
+    "ellisonleao/gruvbox.nvim",
     priority = 1000,
     config = function()
       -- Read theme from ~/.theme_mode (set by ~/bin/theme script)
@@ -84,7 +83,7 @@ require("lazy").setup({
       if f then mode = f:read("*l") or "dark"; f:close() end
       local is_dark = mode ~= "light"
       vim.o.background = is_dark and "dark" or "light"
-      vim.cmd.colorscheme(is_dark and "catppuccin-mocha" or "catppuccin-latte")
+      vim.cmd.colorscheme("gruvbox")
     end,
   },
 

@@ -59,6 +59,9 @@ eval "$(/home/linuxbrew/.linuxbrew/bin/brew shellenv zsh)"
 path=("$HOME/.local/bin" "$HOME/.npm-global/bin" ${path:#$HOME/.local/bin} ${path:#$HOME/.npm-global/bin})
 export PATH
 
+# Python user-installed scripts (ipython, etc.)
+export PATH="$HOME/Library/Python/3.13/bin:$PATH"
+
 # --- Codex ---
 # `codex` resolves via PATH to ~/.npm-global/bin/codex (the real npm binary).
 # For policy-compliant max access + VPN/proxy auto-detection, run `codex-fast`

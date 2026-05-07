@@ -54,7 +54,9 @@ alias l='\ls'
 # --- Starship prompt (must be at end) ---
 #eval "$(starship init zsh)"
 
-eval "$(/home/linuxbrew/.linuxbrew/bin/brew shellenv zsh)"
+if [[ "$(uname)" == "Linux" && -x /home/linuxbrew/.linuxbrew/bin/brew ]]; then
+    eval "$(/home/linuxbrew/.linuxbrew/bin/brew shellenv zsh)"
+fi
 # Keep local policy wrappers ahead of npm-installed command shims.
 path=("$HOME/.local/bin" "$HOME/.npm-global/bin" ${path:#$HOME/.local/bin} ${path:#$HOME/.npm-global/bin})
 export PATH

@@ -2,7 +2,7 @@
 layout: default
 ---
 
-# oh-my-dotfiles
+# bo-env
 
 Cross-platform dotfiles & config management for **macOS** + **Oracle Linux 9**.
 
@@ -18,8 +18,8 @@ backup.py    system -> repo   (snapshot before committing)
 ## Quick Start
 
 ```bash
-git clone git@github.com:bowang168/oh-my-dotfiles.git ~/g/oh-my-dotfiles
-cd ~/g/oh-my-dotfiles
+git clone git@github.com:bowang168/bo-env.git ~/g/bo-env
+cd ~/g/bo-env
 python3 install.py          # interactive restore
 python3 backup.py           # backup current configs
 ```
@@ -102,5 +102,5 @@ Affects: system appearance, Neovim, zsh highlighting, terminal.
 
 ---
 
-**[View on GitHub](https://github.com/bowang168/oh-my-dotfiles)** ·
-**[中文文档](https://github.com/bowang168/oh-my-dotfiles/blob/main/README.zh.md)**
+**[View on GitHub](https://github.com/bowang168/bo-env)** ·
+**[中文文档](https://github.com/bowang168/bo-env/blob/main/README.zh.md)**

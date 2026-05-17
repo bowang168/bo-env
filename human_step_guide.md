@@ -11,7 +11,7 @@
 ### 1.1 运行自动备份脚本
 
 ```bash
-cd ~/g/oh-my-dotfiles
+cd ~/g/bo-env
 python3 backup.py              # 完整备份
 python3 backup.py --dry-run    # 预览
 python3 backup.py --only brew configs defaults  # 指定步骤
@@ -65,7 +65,7 @@ System Settings > Displays, 截图或记录:
 ### 1.5 推送备份到 GitHub
 
 ```bash
-cd ~/g/oh-my-dotfiles
+cd ~/g/bo-env
 git add -A && git diff --cached  # 审查
 git commit -m "backup: $(date +%Y-%m-%d)"
 git push
@@ -80,8 +80,8 @@ git push
 ```bash
 # macOS 自带 git (Xcode CLT), Linux 需先 sudo dnf/apt install git
 mkdir -p ~/g && cd ~/g
-git clone https://github.com/bowang168/oh-my-dotfiles.git
-cd oh-my-dotfiles
+git clone https://github.com/bowang168/bo-env.git
+cd bo-env
 ```
 
 ### 2.2 运行自动恢复脚本
@@ -201,7 +201,7 @@ ollama pull qwen3-embedding:0.6b
 ## 四、日常维护
 
 ```bash
-cd ~/g/oh-my-dotfiles
+cd ~/g/bo-env
 
 # 备份当前配置
 python3 backup.py

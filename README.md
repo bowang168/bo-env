@@ -1,4 +1,4 @@
-# oh-my-dotfiles
+# bo-env
 
 [![Buy Me A Coffee](https://img.shields.io/badge/Buy%20Me%20A%20Coffee-support-yellow?style=flat-square&logo=buy-me-a-coffee)](https://buymeacoffee.com/bowang168)
 [![Sponsor](https://img.shields.io/badge/GitHub%20Sponsors-sponsor-ea4aaa?style=flat-square&logo=github-sponsors)](https://github.com/sponsors/bowang168)
@@ -17,7 +17,7 @@ Two scripts handle everything:
 ## Structure
 
 ```
-oh-my-dotfiles/
+bo-env/
 ├── install.py           # Restore: repo -> system
 ├── backup.py            # Backup:  system -> repo
 │
@@ -61,8 +61,8 @@ oh-my-dotfiles/
 
 ```bash
 # 1. Clone
-git clone git@github.com:bowang168/oh-my-dotfiles.git ~/g/oh-my-dotfiles
-cd ~/g/oh-my-dotfiles
+git clone git@github.com:bowang168/bo-env.git ~/g/bo-env
+cd ~/g/bo-env
 
 # 2. Install everything (interactive, confirms each step)
 python3 install.py
@@ -98,7 +98,7 @@ curl -sSfL https://raw.githubusercontent.com/ajeetdsouza/zoxide/main/install.sh 
 ### Existing machine (backup)
 
 ```bash
-cd ~/g/oh-my-dotfiles
+cd ~/g/bo-env
 
 # Full backup
 python3 backup.py

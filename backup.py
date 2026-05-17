@@ -11,7 +11,7 @@ Usage:
     python3 backup.py --only brew defaults  # specific steps only
 
 After running:
-    cd ~/g/oh-my-dotfiles && git diff   # review changes
+    cd ~/g/bo-env && git diff   # review changes
     git add -A && git commit -m 'backup' && git push
 """
 
@@ -496,7 +496,7 @@ examples:
 
     os_label = "macOS" if IS_MACOS else "Linux"
     print(f"\n{BOLD}{'=' * 60}")
-    print(f"  oh-my-dotfiles — backup ({os_label})")
+    print(f"  bo-env — backup ({os_label})")
     print(f"  {datetime.now().strftime('%Y-%m-%d %H:%M:%S')}")
     print(f"  Target: {REPO}")
     if args.dry_run:

@@ -1,4 +1,4 @@
-# oh-my-dotfiles
+# bo-env
 
 [![Buy Me A Coffee](https://img.shields.io/badge/Buy%20Me%20A%20Coffee-support-yellow?style=flat-square&logo=buy-me-a-coffee)](https://buymeacoffee.com/bowang168)
 [![Sponsor](https://img.shields.io/badge/GitHub%20Sponsors-sponsor-ea4aaa?style=flat-square&logo=github-sponsors)](https://github.com/sponsors/bowang168)
@@ -17,7 +17,7 @@
 ## 目录结构
 
 ```
-oh-my-dotfiles/
+bo-env/
 ├── install.py           # 恢复: 仓库 -> 系统
 ├── backup.py            # 备份: 系统 -> 仓库
 │
@@ -61,8 +61,8 @@ oh-my-dotfiles/
 
 ```bash
 # 1. 克隆仓库
-git clone git@github.com:bowang168/oh-my-dotfiles.git ~/g/oh-my-dotfiles
-cd ~/g/oh-my-dotfiles
+git clone git@github.com:bowang168/bo-env.git ~/g/bo-env
+cd ~/g/bo-env
 
 # 2. 交互式安装 (每步确认)
 python3 install.py
@@ -98,7 +98,7 @@ curl -sSfL https://raw.githubusercontent.com/ajeetdsouza/zoxide/main/install.sh 
 ### 现有系统 (备份)
 
 ```bash
-cd ~/g/oh-my-dotfiles
+cd ~/g/bo-env
 
 # 完整备份
 python3 backup.py

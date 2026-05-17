@@ -1,4 +1,4 @@
-# oh-my-dotfiles
+# bo-env
 
 Cross-platform dotfiles manager for macOS and Linux.
 
@@ -17,7 +17,7 @@ python3 backup.py --yes              # Snapshot current system configs into repo
 ## Project Structure
 
 ```
-oh-my-dotfiles/
+bo-env/
 ├── shared/              # Cross-platform configs (symlinked to ~)
 │   ├── .zshrc, .zshenv, .bashrc, .shell_common, .gitconfig
 │   ├── nvim/            # Neovim (init.lua + lazy-lock.json)

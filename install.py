@@ -105,7 +105,7 @@ def _git_clone_env():
     rewrites when ~/.ssh/ has no keys, so HTTPS clones succeed on a fresh box."""
     env = os.environ.copy()
     if not _has_ssh_keys() and _gitconfig_rewrites_github_to_ssh():
-        empty = Path("/tmp/.oh-my-dotfiles-empty-gitconfig")
+        empty = Path("/tmp/.bo-env-empty-gitconfig")
         empty.touch()
         env["GIT_CONFIG_GLOBAL"] = str(empty)
         env["GIT_CONFIG_SYSTEM"] = "/dev/null"
@@ -1372,7 +1372,7 @@ examples:
 
     os_label = "macOS" if IS_MACOS else "Linux"
     print(f"\n{BOLD}{'=' * 60}")
-    print(f"  oh-my-dotfiles — install ({os_label})")
+    print(f"  bo-env — install ({os_label})")
     print(f"  {datetime.now().strftime('%Y-%m-%d %H:%M:%S')}")
     print(f"  Source: {REPO}")
     if args.dry_run:

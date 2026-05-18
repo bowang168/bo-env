@@ -5,13 +5,13 @@ font-thicken = true
 
 # === 主题 ===
 # 固定 dark 主题（避免 quick terminal 误用 light theme）
-theme = Catppuccin Mocha
+#theme = Catppuccin Mocha
 #theme = Catppuccin Latte
 #theme = Breadog
 #theme = Modus Operandi
 #theme = Modus Vivendi
 
-#theme = Gruvbox Dark Hard
+theme = Gruvbox Dark Hard
 #background = 171421
 
 # === 窗口 ===
@@ -21,7 +21,7 @@ window-decoration = true
 # AeroSpace 环境下用 hidden 避免 native tabs 冲突
 # 用 ⌘D/⌘⇧D 分屏替代 tab，⌘N 新窗口由 AeroSpace tiling
 #macos-titlebar-style = hidden
-window-save-state = always
+window-save-state = never
 confirm-close-surface = false
 
 # === 光标 ===

@@ -57,7 +57,7 @@ alias l='\ls'
 if [[ "$(uname)" == "Linux" && -x /home/linuxbrew/.linuxbrew/bin/brew ]]; then
     eval "$(/home/linuxbrew/.linuxbrew/bin/brew shellenv zsh)"
 fi
-# Keep local policy wrappers ahead of npm-installed command shims.
+# Keep local standalone tools and policy wrappers ahead of legacy npm shims.
 path=("$HOME/.local/bin" "$HOME/.npm-global/bin" ${path:#$HOME/.local/bin} ${path:#$HOME/.npm-global/bin})
 export PATH
 
@@ -65,7 +65,7 @@ export PATH
 export PATH="$HOME/Library/Python/3.13/bin:$PATH"
 
 # --- Codex ---
-# `codex` resolves via PATH to ~/.npm-global/bin/codex (the real npm binary).
-# For policy-compliant max access + VPN/proxy auto-detection, run `codex-fast`
-# explicitly. `codex-subagent` for non-interactive workers, `codex-debug` for
+# `codex` resolves via PATH to ~/.local/bin/codex, the standalone CLI symlink.
+# Use `codex-fast` for VPN/proxy auto-detection and managed sandbox defaults.
+# Use `codex-subagent` for non-interactive workers and `codex-debug` for
 # diagnosis.

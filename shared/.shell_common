@@ -6,15 +6,24 @@
 
 OS_TYPE="$(uname)"
 
+# oh-my-zsh (sourced before this file) sets `alias ls='ls -G'` and nocorrect
+# aliases for mv/cp. In zsh an existing alias shadows a same-named function and
+# even breaks its definition at parse time, so drop them before we (re)define
+# ls/cat/rm/mv/cp as interactive-guarded functions below.
+unalias ls cat rm mv cp 2>/dev/null
+
 # ----------------------------------------------------------------------------
 # Platform-specific settings
 # ----------------------------------------------------------------------------
 
 if [[ "$OS_TYPE" == "Darwin" ]]; then
     # --- macOS only ---
-    alias cat="bat --theme auto:system --theme-dark default --theme-light GitHub"
+    # Interactive: pretty cat via bat. Non-interactive (agents/scripts): real cat.
+    cat() { case $- in *i*) command bat --theme auto:system --theme-dark default --theme-light GitHub "$@" ;; *) command cat "$@" ;; esac; }
     alias geany="env LANG=zh_CN.UTF-8 LANGUAGE=zh_CN LC_MESSAGES=zh_CN.UTF-8 /Applications/Geany.app/Contents/MacOS/geany"
-    alias rm='/usr/bin/trash'   # 走废纸篓，可恢复；要永久删用 \rm 或 rrm
+    # Interactive: deletes go to Trash (recoverable). Non-interactive (agents): real rm.
+    # Permanent delete: use `rrm` or `command rm`  (注意: rm 现在是函数, `\rm` 不再绕过, 用 rrm)
+    rm() { case $- in *i*) /usr/bin/trash "$@" ;; *) command rm "$@" ;; esac; }
     alias rrm='/bin/rm'
     alias flushdns='sudo dscacheutil -flushcache; sudo killall -HUP mDNSResponder'
     alias vpnui=/opt/cisco/secureclient/bin/vpnui
@@ -33,7 +42,7 @@ if [[ "$OS_TYPE" == "Darwin" ]]; then
     ql() { qlmanage -p "$*" >& /dev/null; }
 else
     # --- Oracle Linux 9 ---
-    alias rm='rm -iv --preserve-root'
+    rm() { case $- in *i*) command rm -iv --preserve-root "$@" ;; *) command rm --preserve-root "$@" ;; esac; }
     alias hd='od -Ax -tx1z -v'
     alias geany='LANG=zh_CN.UTF-8 LANGUAGE=zh_CN geany'
 fi
@@ -147,7 +156,8 @@ fi
 # ----------------------------------------------------------------------------
 
 if command -v eza &>/dev/null; then
-    alias ls='eza --group-directories-first'
+    # Interactive: ls via eza. Non-interactive (agents): real ls for predictable parsing.
+    ls() { case $- in *i*) command eza --group-directories-first "$@" ;; *) command ls "$@" ;; esac; }
     alias ll='eza -lh  --group-directories-first --git --icons'
     alias la='eza -lha --group-directories-first --git --icons'
     alias l.='eza -d .* --group-directories-first'
@@ -163,7 +173,7 @@ if command -v eza &>/dev/null; then
         if alias ls 2>/dev/null | grep -q eza; then
             unalias ls ll la l. lf lr lt l2 l3 l4 2>/dev/null
             alias ll='ls -lhF'; alias la='ls -lha'; alias l.='ls -d .*'
-            cd() { builtin cd "$@" && command ls -lh; }
+            cd() { builtin cd "$@" || return; case $- in *i*) command ls -lh ;; esac; }
             echo "eza OFF — using system ls"
         else
             alias ls='eza --group-directories-first'
@@ -176,7 +186,7 @@ if command -v eza &>/dev/null; then
             alias l2='eza -T -L2 --group-directories-first'
             alias l3='eza -T -L3 --group-directories-first'
             alias l4='eza -T -L4 --group-directories-first'
-            cd() { builtin cd "$@" && ls -lh; }
+            cd() { builtin cd "$@" || return; case $- in *i*) ls -lh ;; esac; }
             echo "eza ON"
         fi
     }
@@ -213,7 +223,10 @@ fi
 #    cd() { builtin cd "$@" && ls -lh; }
 #fi
 
-cd() { builtin cd "$@" && ls -lh; }
+# Auto-ls after cd, but only in interactive shells. Non-interactive shells
+# (Claude/agent `zsh -c`, CI, scripts) skip it: the listing is wasted output
+# and an extra process on every `cd`-prefixed command.
+cd() { builtin cd "$@" || return; case $- in *i*) ls -lh ;; esac; }
 
 # Quick parent traversal
 alias ..='cd ..'
@@ -284,8 +297,10 @@ fi
 # File operations
 # ----------------------------------------------------------------------------
 
-alias mv='mv -iv'
-alias cp='cp -iv'
+# Interactive: -i guards against clobber. Non-interactive (agents): plain mv/cp so
+# overwrites don't silently no-op on an EOF prompt.
+mv() { case $- in *i*) command mv -iv "$@" ;; *) command mv "$@" ;; esac; }
+cp() { case $- in *i*) command cp -iv "$@" ;; *) command cp "$@" ;; esac; }
 alias mkdir='mkdir -pv'
 alias more='less'
 alias dig='dig +noall +answer'

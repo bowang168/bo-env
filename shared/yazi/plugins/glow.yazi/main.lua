@@ -1,12 +1,15 @@
 local M = {}
 
 function M:peek(job)
+	-- Set a fixed width of 50 characters for the preview
+	local preview_width = 55
+
 	local child = Command("glow")
-		:args({
+		:arg({
 			"--style",
 			"dark",
 			"--width",
-			tostring(job.area.w),
+			tostring(preview_width),  -- Use fixed width instead of job.area.w
 			tostring(job.file.url),
 		})
 		:env("CLICOLOR_FORCE", "1")
@@ -43,7 +46,7 @@ function M:peek(job)
 		})
 	else
 		lines = lines:gsub("\t", string.rep(" ", rt.preview.tab_size))
-		ya.preview_widgets(job, { ui.Text.parse(lines):area(job.area) })
+		ya.preview_widget(job, ui.Text.parse(lines):area(job.area))
 	end
 end
 

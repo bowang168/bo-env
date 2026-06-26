@@ -15,3 +15,7 @@ if [[ "$OS_TYPE" == "Darwin" ]]; then
 fi
 
 export PATH="$HOME/.local/bin:$PATH"
+
+# >>> Codex installer >>>
+export PATH="/Users/bo/.local/bin:$PATH"
+# <<< Codex installer <<<

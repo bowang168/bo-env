@@ -22,3 +22,5 @@
     conflictstyle = zdiff3
 [diff]
     colorMoved = default
+[oh-my-zsh]
+	hide-dirty = 1

@@ -18,10 +18,6 @@
 
 个人数据搜索已封装为 skill，触发 `/brain` 或 Claude 自动识别个人信息问题时加载。
 
-### 服务前提
-
-Qdrant Local Mode (每个项目 DB 在自己 repo 内, 无 Docker) + Ollama qwen3-embedding:0.6b + BM25 (jieba)。
-搜索默认 hybrid 模式 (语义+关键词 RRF 融合)。Ollama 未启动时提醒用户启动，或直接读文件。
 
 ## 委派 Codex（你是指挥，Codex 是引擎）
 

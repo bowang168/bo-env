@@ -2,6 +2,10 @@
 
 > 仅 Codex 读取（由 install.py 拼接进 ~/.codex/AGENTS.md）。通用规则见上方共享层。
 
+## Git 提交格式
+
+`<类型>: <描述>`，类型：feat / fix / refactor / docs / test / chore / perf / ci。不加 AI 归属信息。
+
 ## 被 Claude Code 委派时的协作契约
 
 你经常被 Claude Code 当作「执行引擎」调用（通过 MCP `mcp__codex__codex` 或 `codex exec`）。分工固定：**Claude 负责规划与终审，你负责重活（读 repo、多文件改、跑测试、调查）**。被委派时遵守以下契约。

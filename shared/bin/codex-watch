@@ -1,0 +1,106 @@
+#!/usr/bin/env python3
+"""codex-watch — live view of what Codex is doing, including silent MCP calls.
+
+When Claude (or anything) drives Codex via the `mcp__codex__codex` MCP tool, the
+call is a synchronous black box: your terminal sees nothing until it finishes.
+But Codex still writes a per-session rollout JSONL under
+~/.codex/sessions/YYYY/MM/DD/rollout-*-<threadId>.jsonl, appended live.
+
+This follows the newest rollout and pretty-prints the actions:
+  ▶ task lifecycle   $ shell commands   ↳ output   🗨 agent messages
+It auto-switches when a new session starts (each MCP call = new file).
+
+Codex encrypts its reasoning in the rollout, so chain-of-thought is not shown —
+only observable actions and messages.
+
+Usage: run it in a second Ghostty pane (Cmd-D to split — no tmux needed):
+    codex-watch
+"""
+import glob
+import json
+import os
+import time
+from pathlib import Path
+
+SESS = Path.home() / ".codex" / "sessions"
+C = {
+    "dim": "\033[2m", "b": "\033[1m", "r": "\033[0m",
+    "grn": "\033[32m", "yel": "\033[33m", "cyn": "\033[36m",
+    "mag": "\033[35m", "red": "\033[31m",
+}
+
+
+def newest():
+    files = glob.glob(str(SESS / "**" / "rollout-*.jsonl"), recursive=True)
+    return max(files, key=os.path.getmtime) if files else None
+
+
+def fmt(line):
+    line = line.strip()
+    if not line:
+        return None
+    try:
+        d = json.loads(line)
+    except json.JSONDecodeError:
+        return None
+    p = d.get("payload", {}) or {}
+    t = p.get("type") or d.get("type")
+
+    if t == "function_call" and p.get("name") == "exec_command":
+        try:
+            a = json.loads(p.get("arguments", "{}"))
+        except json.JSONDecodeError:
+            a = {}
+        wd = a.get("workdir", "")
+        return f"{C['grn']}${C['r']} {a.get('cmd', '')}  {C['dim']}({wd}){C['r']}"
+    if t == "function_call":
+        args = str(p.get("arguments", ""))[:120]
+        return f"{C['cyn']}⚙ {p.get('name')}{C['r']} {C['dim']}{args}{C['r']}"
+    if t == "function_call_output":
+        out = p.get("output")
+        if isinstance(out, dict):
+            out = out.get("content", "")
+        rows = str(out or "").strip().splitlines()
+        head = rows[0][:140] if rows else ""
+        more = f" {C['dim']}(+{len(rows) - 1} lines){C['r']}" if len(rows) > 1 else ""
+        return f"  {C['dim']}↳{C['r']} {head}{more}"
+    if t == "agent_message":
+        return f"{C['mag']}🗨  {str(p.get('message', '')).strip()}{C['r']}"
+    if t == "user_message":
+        return f"{C['b']}➤ prompt:{C['r']} {str(p.get('message', ''))[:160]}"
+    if t == "task_started":
+        return f"{C['yel']}{C['b']}▶ task started{C['r']}"
+    if t == "task_complete":
+        return f"{C['yel']}{C['b']}■ task complete{C['r']}"
+    return None  # reasoning (encrypted), token_count, meta — skipped
+
+
+def follow():
+    print(f"{C['dim']}codex-watch — following newest Codex session under {SESS}{C['r']}")
+    print(f"{C['dim']}(reasoning is encrypted by Codex, not shown · Ctrl-C to quit){C['r']}")
+    cur, fh, buf = None, None, ""
+    while True:
+        n = newest()
+        if n and n != cur:
+            if fh:
+                fh.close()
+            cur, buf = n, ""
+            fh = open(cur, encoding="utf-8", errors="replace")
+            print(f"\n{C['dim']}── session: {os.path.basename(cur)} ──{C['r']}")
+        if fh:
+            chunk = fh.read()
+            if chunk:
+                buf += chunk
+                while "\n" in buf:
+                    line, buf = buf.split("\n", 1)
+                    out = fmt(line)
+                    if out:
+                        print(out, flush=True)
+        time.sleep(0.5)
+
+
+if __name__ == "__main__":
+    try:
+        follow()
+    except KeyboardInterrupt:
+        print()

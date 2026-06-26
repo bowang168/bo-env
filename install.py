@@ -453,6 +453,7 @@ def _check_configs():
     targets += [
         (shared / "starship.toml", HOME / ".config" / "starship.toml"),
         (shared / "bin" / "theme", HOME / ".local" / "bin" / "theme"),
+        (shared / "bin" / "codex-watch", HOME / ".local" / "bin" / "codex-watch"),
         (shared / "yazi" / "yazi.toml", HOME / ".config" / "yazi" / "yazi.toml"),
         (shared / "yazi" / "package.toml", HOME / ".config" / "yazi" / "package.toml"),
         (shared / "yazi" / "plugins" / "glow.yazi",
@@ -495,6 +496,7 @@ def step_configs(dry_run=False, **_):
 
     # --- Scripts (cross-platform) ---
     symlink(shared / "bin" / "theme", HOME / ".local" / "bin" / "theme", dry_run)
+    symlink(shared / "bin" / "codex-watch", HOME / ".local" / "bin" / "codex-watch", dry_run)
 
     # --- Starship prompt ---
     symlink(shared / "starship.toml", HOME / ".config" / "starship.toml", dry_run)

@@ -10,14 +10,9 @@
 |----------|------|
 | `exp12` | explain as I am year 12 |
 
-## 知识库 (按需加载)
+## 知识库
 
-> **搜索优先级: 本地 Qdrant 先于 WebSearch。任何问题如果可能在知识库中有答案，必须先 Qdrant 搜索，不够再 WebSearch 补充。禁止跳过本地知识库直接 web 搜索。**
-
-### 个人信息查询 → `/brain` skill
-
-个人数据搜索已封装为 skill，触发 `/brain` 或 Claude 自动识别个人信息问题时加载。
-
+个人信息查询 → 调用 `/brain` skill。
 
 ## 委派 Codex（你是指挥，Codex 是引擎）
 

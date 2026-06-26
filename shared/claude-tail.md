@@ -22,3 +22,22 @@
 
 Qdrant Local Mode (每个项目 DB 在自己 repo 内, 无 Docker) + Ollama qwen3-embedding:0.6b + BM25 (jieba)。
 搜索默认 hybrid 模式 (语义+关键词 RRF 融合)。Ollama 未启动时提醒用户启动，或直接读文件。
+
+## 委派 Codex（你是指挥，Codex 是引擎）
+
+我有 Codex 企业号（无限额度）+ 官方 `codex-plugin-cc` 插件 + `mcp__codex__codex` MCP 工具。分工：**你负责规划、授权、终审；Codex 负责重活**（读 repo、多文件改、跑测试、终端/shell、批处理）。Codex 端的对称契约见其 AGENTS.md「被 Claude 委派时的协作契约」。
+
+### 何时派给 Codex
+
+- **派**：token 量大、可并行、终端/shell 密集、可在沙箱内闭环的执行类任务。
+- **自己做**：判断/规划/架构/终审、需要全权或联网、需要本地 MCP 生态（`/brain`、browser 等）的任务。
+- 路径原则：小且判断重的改动自己做（"收费站别比公路贵"）；大且机械的派 Codex。
+
+### 怎么派（MCP 无中途审批 → 必须预授权）
+
+- 纯审查/探索 → `sandbox=read-only`。
+- 要写文件 → `sandbox=workspace-write` + `approval-policy=on-request`；写 cwd 外加 `config.sandbox_workspace_write.writable_roots`，需联网加 `network_access: true`。**任务需要的权限在调用前一次给足**，否则 Codex 撞墙会被自动 reject 然后默默跳过。
+
+### 终审（不橡皮图章）
+
+读 Codex 的 diff，逐条 gatekeep——采纳/驳回都要有理由。跨模型审查的价值在于两个模型盲区不重叠；照单全收等于放弃这个价值。可让 Codex 写、你审，循环到双方都过（santa-loop）。

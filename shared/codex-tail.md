@@ -37,3 +37,12 @@
 ### 4. 风格服从目标 repo
 
 匹配目标 repo 的现有风格优先于 ai-common.md 的通用偏好。
+
+## ICC: 交互式 Codex SR 会话索引
+
+- 当用户在交互式 Codex 中要求处理 Oracle SR workflow，且当前对话能明确识别 SR 号（`\b[34]-\d{10}\b`）时，无论当前 cwd 在哪里，都为每个 SR 创建或更新本地 ICC run 索引：`~/.sr/<SR-Number>/icc/runs/YYYYMMDD_HHMM_icc/manifest.json`。
+- ICC 只保存 metadata，用于 TUI `aicc sessions --icc` 查找/恢复交互式 Codex 会话；不要复制 SR 正文、消息正文、附件内容、客户数据或完整对话 transcript。
+- manifest 至少写入：`schema="ols-cmos.icc.run.v1"`、`mode="icc"`、`source="interactive-codex-cli"`、`sr`、`status`、`created_at`、`updated_at`、`cwd`、`detected_sr_numbers`、`codex_interactive=true`、`codex_ephemeral=false`、`local_data_policy="~/.sr/<SR>/icc/"`。
+- 如果能可靠识别当前 Codex session id/path，则写入 `codex_session_id`、`codex_thread_id`、`codex_session_path`、`resume_command="codex resume <id>"`；如果不能可靠识别，不要伪造 id，改写 `resume_hint="codex resume --last --all"` 和 `resume_status="unknown"`。
+- 可写入安全摘要字段如 `last_intent`、`actions_summary`、`commands_run`、`files_written`、`message_ids_sent`，但这些字段也不得包含客户内容或 SR 正文。需要 replay 时只写非敏感 `replay_prompt_path`，提示重新读取当前 SR 状态，不保存旧 SR 数据快照。
+- 如果同一交互会话后续继续处理同一 SR，优先更新已有 active ICC manifest 的 `updated_at/status/actions_summary`；不要为同一连续会话反复创建重复 run。

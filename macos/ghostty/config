@@ -5,17 +5,17 @@ font-thicken = true
 
 # === 主题 ===
 # 固定 dark 主题（避免 quick terminal 误用 light theme）
+#theme = Aurora
 #theme = Catppuccin Mocha
-#theme = Catppuccin Latte
+theme = Catppuccin Latte
+#theme = 3024 Day
 #theme = Breadog
 #theme = Modus Operandi
 #theme = Modus Vivendi
 
 #theme = Gruvbox Dark Hard
-
-theme = Gruvbox Light
+#theme = Gruvbox Light
 #theme = Gruvbox Dark
-
 #background = 171421
 
 # === 窗口 ===
@@ -44,7 +44,7 @@ background-blur = 20
 # === 行为 ===
 copy-on-select = clipboard
 mouse-hide-while-typing = true
-scrollback-limit = 1000000
+scrollback-limit = 100000000
 
 # === 剪贴板/链接 ===
 link-url = true
